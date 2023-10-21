@@ -17,6 +17,9 @@ public class Player {
     /** 負けた情報リスト */
     private LinkedHashSet<String> loseInfoList;
 
+    /** 不要になった負けた情報リスト */
+    private LinkedHashSet<String> unneededLostInfoList;
+
     /** あきらめた状態 */
     private boolean giveUp;
 
@@ -25,6 +28,7 @@ public class Player {
         this.stone = stone;
 
         this.loseInfoList = new LinkedHashSet<>();
+        this.unneededLostInfoList = new LinkedHashSet<>();
 
         giveUp = false;
     }
@@ -47,6 +51,14 @@ public class Player {
                 lastPutInfo = board.toString() + point.toString();
                 return point;
             }
+
+            // 不要な負け情報を保存する
+            for (StonePoint point : puttablePoints) {
+                if (loseInfoList.contains(board.toString() + point.toString())) {
+                    unneededLostInfoList.add(board.toString() + point.toString());
+                }
+            }
+
             // 負ける場所しかない場合はあきらめる
             giveUp = true;
         }
@@ -60,6 +72,12 @@ public class Player {
     public void finishGame(BoardMaster boardMaster) {
 
         giveUp = false;
+
+        // 不要となる負け記録を削除する
+        for (String info : unneededLostInfoList) {
+            loseInfoList.remove(info);
+        }
+        unneededLostInfoList.clear();
 
         // 負けていた場合リストに追加
         if (boardMaster.isWin(stone) == false) {
