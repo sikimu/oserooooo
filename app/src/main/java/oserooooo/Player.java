@@ -3,7 +3,6 @@ package oserooooo;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
-
 /**
  * オセロのプレイヤーを管理するクラス
  */
@@ -18,11 +17,16 @@ public class Player {
     /** 負けた情報リスト */
     private LinkedHashSet<String> loseInfoList;
 
+    /** あきらめた状態 */
+    private boolean giveUp;
+
     public Player(String name, Stone stone) {
         this.name = name;
         this.stone = stone;
 
         this.loseInfoList = new LinkedHashSet<>();
+
+        giveUp = false;
     }
 
     /**
@@ -34,26 +38,33 @@ public class Player {
         
         ArrayList<StonePoint> puttablePoints = board.getPuttablePoints(stone);
 
-        // 負ける場所を避ける
-        for (StonePoint point : puttablePoints) {
-            if (loseInfoList.contains(board.toString() + point.toString())) {
-                continue;
+        if (giveUp == false) {
+            // 負ける場所を避ける
+            for (StonePoint point : puttablePoints) {
+                if (loseInfoList.contains(board.toString() + point.toString())) {
+                    continue;
+                }
+                lastPutInfo = board.toString() + point.toString();
+                return point;
             }
-            lastPutInfo = board.toString() + point.toString();
-            return point;
+            // 負ける場所しかない場合はあきらめる
+            giveUp = true;
         }
-        
-        // 負ける場所しかない場合は、リストに追加しておく
-        loseInfoList.add(lastPutInfo);
         
         return puttablePoints.get(0);
     }
 
     /**
-     * 負けを記録する
+     * ゲームの終了処理
      */
-    public void recordLose() {
-        loseInfoList.add(lastPutInfo);
+    public void finishGame(BoardMaster boardMaster) {
+
+        giveUp = false;
+
+        // 負けていた場合リストに追加
+        if (boardMaster.isWin(stone) == false) {
+            loseInfoList.add(lastPutInfo);
+        }
     }
 
     public void printLoseInfoList() {

@@ -66,19 +66,9 @@ public class Game {
     } 
 
     private void end(){
+        player1.finishGame(board);
+        player2.finishGame(board);
 
-        int player1StoneCount = this.board.countStone(this.player1.stone);
-        int player2StoneCount = this.board.countStone(this.player2.stone);
-
-        // 負けた方は盤面を記録する
-        if (player1StoneCount > player2StoneCount) {
-            this.player2.recordLose();
-        } else {
-            this.player1.recordLose();
-        }
-
-        //System.out.println("先攻の石の数: " + player1StoneCount);        
-        //System.out.println("後攻の石の数: " + player2StoneCount);        
     }
 
     /**

@@ -176,5 +176,9 @@ public class BoardMaster {
             }
         }
         return sb.toString();
+    }
+
+    public boolean isWin(Stone stone) {
+        return countStone(stone) > countStone(stone.getOpponent());
     }    
 }
