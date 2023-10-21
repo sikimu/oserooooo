@@ -1,5 +1,10 @@
 package oserooooo;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
@@ -28,6 +33,18 @@ public class Player {
         this.stone = stone;
 
         this.loseInfoList = new LinkedHashSet<>();
+        // 負けた情報を読み込む
+        ClassLoader classLoader = getClass().getClassLoader();
+        String resourcePath = classLoader.getResource(stone.toString()).getPath();
+        try (BufferedReader reader = new BufferedReader(new FileReader(resourcePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                loseInfoList.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         this.unneededLostInfoList = new LinkedHashSet<>();
 
         giveUp = false;
@@ -89,6 +106,18 @@ public class Player {
         System.out.println("負けた情報リスト:" + stone.toString());
         for (String info : loseInfoList) {
             System.out.println(info);
+        }
+    }
+
+    public void outputLoseInfoList() {
+        ClassLoader classLoader = getClass().getClassLoader();
+        String resourcePath = classLoader.getResource(stone.toString()).getPath();        
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(resourcePath, false))) {
+            for (String info : loseInfoList) {
+                writer.write(info + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

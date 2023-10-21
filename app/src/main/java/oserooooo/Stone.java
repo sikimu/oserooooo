@@ -21,4 +21,12 @@ public enum Stone {
     public Stone getOpponent() {
         return this == BLACK ? WHITE : BLACK;
     }
+
+    /**
+     * 文字列に変換する
+     */
+    @Override
+    public String toString() {
+        return this == BLACK ? "BLACK" : "WHITE";
+    }
 }
