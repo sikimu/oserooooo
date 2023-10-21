@@ -8,11 +8,13 @@ public class App {
     public static void main(String[] args) {
 
         Game game = new Game();                
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 100000; i++) {
             game.start();
         }     
 
         // 負けリストをresourcesに出力する
         game.outputLoseInfoList();
+
+        System.out.println("end");
     }
 }
