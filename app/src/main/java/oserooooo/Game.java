@@ -35,8 +35,8 @@ public class Game {
 
         this.currentPlayer = this.player1;
 
-        System.out.println("ゲームを開始します");
-        System.out.println("先攻のターンです");
+        //System.out.println("ゲームを開始します");
+        //System.out.println("先攻のターンです");
     }
 
     /**
@@ -45,23 +45,23 @@ public class Game {
     private void gameing(){
         while (true) {
             if (this.board.isFinish()) {
-                System.out.println("両者とも置ける場所がなくなりました");
+                //System.out.println("両者とも置ける場所がなくなりました");
                 break;
             }
             if (this.board.isPass(this.currentPlayer.stone)) {
-                System.out.println("置ける場所がないためパスします");
+                //System.out.println("置ける場所がないためパスします");
                 this.currentPlayer = this.currentPlayer == this.player1 ? this.player2 : this.player1;
-                System.out.println(this.currentPlayer.name + "のターンです");
+                //System.out.println(this.currentPlayer.name + "のターンです");
                 continue;
             }
             StonePoint point = this.currentPlayer.searchInput(board);
             this.board.put(point, this.currentPlayer.stone);
-            System.out.println(point.getX() + ", " + point.getY() + "に置きました");
+            //System.out.println(point.getX() + ", " + point.getY() + "に置きました");
             // 盤面を表示する
-            this.board.print();
+            //this.board.print();
 
             this.currentPlayer = this.currentPlayer == this.player1 ? this.player2 : this.player1;
-            System.out.println(this.currentPlayer.name + "のターンです");
+            //System.out.println(this.currentPlayer.name + "のターンです");
         }
     } 
 

@@ -88,6 +88,10 @@ public class Player {
      */
     public void finishGame(BoardMaster boardMaster) {
 
+        if(unneededLostInfoList.size() > 0 && boardMaster.isWin(stone)){
+            assert false;
+        }
+
         giveUp = false;
 
         // 不要となる負け記録を削除する
